@@ -46,8 +46,20 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include("Password is too short (minimum is 6 characters)")
       end
-      it 'passwordが半角英数混合でなく不可'do
-        @user.password = '111111'
+      it 'passwordが半角数字のみで不可'do
+        @user.password = Faker::Lorem.characters(number: 6, min_numeric: 6 )
+        @user.password_confirmation = @user.password
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password Complexity requirement not met. Length should be 6-70 characters and include: 1 alphabet, 1 digit")
+      end
+      it 'passwordが半角英字のみで不可'do
+        @user.password = Faker::Lorem.characters(number: 6, min_alpha: 6)
+        @user.password_confirmation = @user.password
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password Complexity requirement not met. Length should be 6-70 characters and include: 1 alphabet, 1 digit")
+      end
+      it 'passwordが全角文字で不可'do
+        @user.password = 'ｈｋｇｄｓ４５３'
         @user.password_confirmation = @user.password
         @user.valid?
         expect(@user.errors.full_messages).to include("Password Complexity requirement not met. Length should be 6-70 characters and include: 1 alphabet, 1 digit")
