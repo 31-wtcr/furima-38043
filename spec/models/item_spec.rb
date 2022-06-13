@@ -1,9 +1,8 @@
 require 'rails_helper'
 RSpec.describe Item, type: :model do
-
-before do
-  @item = FactoryBot.build(:item)
-end
+  before do
+    @item = FactoryBot.build(:item)
+  end
   describe '商品の出品' do
     context '商品の出品ができるとき' do
       it '必要な情報を満たせば商品の出品ができる' do
@@ -29,7 +28,7 @@ end
       it '商品説明が1000文字を超えたので不可' do
         @item.explanation = Faker::String.random(length: 1001)
         @item.valid?
-        expect(@item.errors.full_messages).to include("Explanation is too long (maximum is 1000 characters)")
+        expect(@item.errors.full_messages).to include('Explanation is too long (maximum is 1000 characters)')
       end
       it 'カテゴリーが選択されていないので不可' do
         @item.category_id = 1
@@ -62,14 +61,14 @@ end
         expect(@item.errors.full_messages).to include("Price can't be blank")
       end
       it '価格が300円未満で不可' do
-        @item.price = Faker::Number.between(from: -10000, to: 300)
+        @item.price = Faker::Number.between(from: -10_000, to: 300)
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price must be greater than or equal to 300")
+        expect(@item.errors.full_messages).to include('Price must be greater than or equal to 300')
       end
       it '価格が10,000,000円以上で不可' do
-        @item.price = Faker::Number.between(from: 10000000, to: 100000000)
+        @item.price = Faker::Number.between(from: 10_000_000, to: 100_000_000)
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price must be less than or equal to 9999999")
+        expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
       end
     end
   end
