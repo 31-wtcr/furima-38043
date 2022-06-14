@@ -19,4 +19,6 @@ class User < ApplicationRecord
 
     errors.add :password, 'Complexity requirement not met. Length should be 6-70 characters and include: 1 alphabet, 1 digit'
   end
+
+  has_many :items
 end
