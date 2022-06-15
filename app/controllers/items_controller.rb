@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update]
+  before_action :authenticate_user!, only: [:new, :edit]
   
   def set_item
     @item = Item.find(params[:id])
@@ -11,7 +12,6 @@ class ItemsController < ApplicationController
 
   def new
     @item = Item.new
-    redirect_to new_user_session_path unless user_signed_in?
   end
 
   def create
@@ -27,8 +27,7 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    redirect_to new_user_session_path and return unless user_signed_in?
-    redirect_to root_path and return if current_user != @item.user
+    redirect_to root_path if current_user != @item.user
   end
 
   def update
