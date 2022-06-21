@@ -23,9 +23,9 @@ window.addEventListener('load', function () {
         document.getElementById("card-exp-month").removeAttribute("name");
         document.getElementById("card-exp-year").removeAttribute("name");
         document.getElementById("card-cvc").removeAttribute("name");
-
-        form.submit();
       };
     });
+
+    form.submit();
   });
 });
