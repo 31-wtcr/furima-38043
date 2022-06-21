@@ -32,7 +32,7 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    redirect_to root_path if current_user != @item.user
+    redirect_to root_path if current_user != @item.user || Purchase.find_by(item_id: @item.id)
   end
 
   def update
