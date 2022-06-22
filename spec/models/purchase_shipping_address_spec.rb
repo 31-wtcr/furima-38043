@@ -30,10 +30,20 @@ RSpec.describe PurchaseShippingAddress, type: :model do
         @order.valid?
         expect(@order.errors.full_messages).to include("Postal code can't be blank")
       end
-      it '都道府県がないとき' do
+      it '郵便番号が半角ハイフンを含んでいないとき' do
+        @order.postal_code = '1234567'
+        @order.valid?
+        expect(@order.errors.full_messages).to include("Postal code is invalid")
+      end
+      it '都道府県の情報がないとき' do
         @order.prefecture = ''
         @order.valid?
         expect(@order.errors.full_messages).to include("Prefecture can't be blank")
+      end
+      it '都道府県が選択されていないとき' do
+        @order.prefecture = 1
+        @order.valid?
+        expect(@order.errors.full_messages).to include("Prefecture must be other than 1")
       end
       it '市区町村がないとき' do
         @order.city = ''
@@ -49,6 +59,31 @@ RSpec.describe PurchaseShippingAddress, type: :model do
         @order.phone_number = ''
         @order.valid?
         expect(@order.errors.full_messages).to include("Phone number can't be blank")
+      end
+      it '電話番号が9桁以下であるとき' do
+        @order.phone_number = '123456789'
+        @order.valid?
+        expect(@order.errors.full_messages).to include("Phone number is invalid")
+      end
+      it '電話番号が12桁以上であるとき' do
+        @order.phone_number = '123456789012'
+        @order.valid?
+        expect(@order.errors.full_messages).to include("Phone number is invalid")
+      end
+      it '電話番号に半角数字以外があるとき' do
+        @order.phone_number = '03-000-000'
+        @order.valid?
+        expect(@order.errors.full_messages).to include("Phone number is invalid")
+      end
+      it 'userが紐付いていないとき' do
+        @order.user_id = nil
+        @order.valid?
+        expect(@order.errors.full_messages).to include("User can't be blank")
+      end
+      it 'itemが紐付いていないとき' do
+        @order.item_id = nil
+        @order.valid?
+        expect(@order.errors.full_messages).to include("Item can't be blank")
       end
     end
 
