@@ -18,14 +18,12 @@ window.addEventListener('load', function () {
         const token = response.id;
         const tokenObj = `<input value=${token} name= 'token' type="hidden">`;
         form.insertAdjacentHTML("beforeend", tokenObj);
-
-        document.getElementById("card-number").removeAttribute("name");
-        document.getElementById("card-exp-month").removeAttribute("name");
-        document.getElementById("card-exp-year").removeAttribute("name");
-        document.getElementById("card-cvc").removeAttribute("name");
       };
+      document.getElementById("card-number").removeAttribute("name");
+      document.getElementById("card-exp-month").removeAttribute("name");
+      document.getElementById("card-exp-year").removeAttribute("name");
+      document.getElementById("card-cvc").removeAttribute("name");
+      form.submit();
     });
-
-    form.submit();
   });
 });
