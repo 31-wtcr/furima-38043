@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
   def create
     @form = PurchaseShippingAddress.new(purchase_params)
     if @form.valid?
-      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+      Payjp.api_key = ENV['PAYJP_SECRET_KEY']
       Payjp::Charge.create(
         amount: @item.price,
         card: purchase_params[:token],
@@ -24,11 +24,14 @@ class OrdersController < ApplicationController
   end
 
   private
+
   def purchase_params
-    params.require(:purchase_shipping_address).permit(:postal_code, :prefecture, :city, :address, :building_name, :phone_number ).merge(user_id: current_user.id, item_id: @item.id, token: params[:token])
+    params.require(:purchase_shipping_address).permit(:postal_code, :prefecture, :city, :address, :building_name, :phone_number).merge(
+      user_id: current_user.id, item_id: @item.id, token: params[:token]
+    )
   end
+
   def item_find
     @item = Item.find(params[:item_id])
   end
-
 end
